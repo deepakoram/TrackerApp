@@ -29,7 +29,6 @@ const AppNavigator = () => {
     };
     loadToken();
   }, []);
-  console.log(userRole,'userRole');
   
   return (
     <NavigationContainer>

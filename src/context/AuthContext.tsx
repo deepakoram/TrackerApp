@@ -24,7 +24,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const loadToken = async () => {
       const token = await AsyncStorage.getItem('userToken');
-      console.log(token,"token");
       setUserToken(token);
     };
     loadToken();

@@ -11,8 +11,8 @@ const LoginScreen = () => {
 
   const handleLogin = async() => {
     if (username === 'admin' && password === 'password') {
-      await AsyncStorage.setItem('userRole', 'engineer');
-      setUserRole('engineer')
+      await AsyncStorage.setItem('userRole', 'sales');
+      setUserRole('sales')
       const fakeToken = 'your-jwt-token-here';
       login(fakeToken);
     } else {
