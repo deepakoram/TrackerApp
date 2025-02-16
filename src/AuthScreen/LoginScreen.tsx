@@ -1,17 +1,20 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { AuthContext } from '../context/AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const LoginScreen = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { login,setUserRole, userRole } = useContext(AuthContext);
 
-  const handleLogin = () => {
+  const handleLogin = async() => {
     if (username === 'admin' && password === 'password') {
+      await AsyncStorage.setItem('userRole', 'engineer');
+      setUserRole('engineer')
       const fakeToken = 'your-jwt-token-here';
       login(fakeToken);
-      setUserRole('sales')
     } else {
       Alert.alert('Invalid credentials');
     }

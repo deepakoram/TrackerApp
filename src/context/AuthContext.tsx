@@ -37,6 +37,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = async () => {
     await AsyncStorage.removeItem('userToken');
+    await AsyncStorage.removeItem('userRole');
     setUserToken(null);
   };
 
