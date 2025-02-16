@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import { AuthContext } from '../context/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -7,12 +7,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const LoginScreen = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [sales,setSales] = useState(true);
   const { login,setUserRole, userRole } = useContext(AuthContext);
 
   const handleLogin = async() => {
     if (username === 'admin' && password === 'password') {
-      await AsyncStorage.setItem('userRole', 'sales');
-      setUserRole('sales')
+      await AsyncStorage.setItem('userRole', sales ? "sales" : "Engineer");
+      setUserRole(sales ? "sales" : "Engineer")
       const fakeToken = 'your-jwt-token-here';
       login(fakeToken);
     } else {
@@ -22,6 +23,11 @@ const LoginScreen = () => {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={()=>{setSales((prev)=>!prev)}}>
+        <Text>
+        {sales ? "sales" : "Engineer"}
+        </Text>
+      </TouchableOpacity>
       <Text style={styles.title}>Login</Text>
       <TextInput
         style={styles.input}
