@@ -16,4 +16,6 @@ const Sales = () => {
 
 export default Sales
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  
+})
