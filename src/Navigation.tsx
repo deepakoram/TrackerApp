@@ -8,7 +8,8 @@ import Engineer from './screens/Engineer';
 import LoginScreen from './AuthScreen/LoginScreen';
 import { AuthContext, AuthProvider } from './context/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { ActivityIndicator, View } from 'react-native';
+import CustomHeader from './components/CustomHeader';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -21,25 +22,73 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppNavigator = () => {
-  const { userToken, userRole,setUserRole } = useContext(AuthContext);
+  const { userToken, userRole, setUserRole } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    const loadToken = async () => {
-      const role = await AsyncStorage.getItem('userRole');
-     if(role)setUserRole(role)
+    const loadRole = async () => {
+      try {
+        const role = await AsyncStorage.getItem('userRole');
+        if (role) setUserRole(role);
+      } catch (error) {
+        console.error('Failed to load user role', error);
+      } finally {
+        setLoading(false);
+      }
     };
-    loadToken();
+    loadRole();
   }, []);
-  
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
         {userToken ? (
-          userRole === 'sales' ?
-            <Stack.Screen name="Sales" component={Sales} /> :
-            <Stack.Screen name="Engineer" component={Engineer} />
+          userRole === 'sales' ? (
+            <Stack.Screen
+              name="Sales"
+              component={Sales}
+              options={{
+                header: () => <CustomHeader title="Sales Dashboard" showBackButton={true}/>,
+              }}
+            />
+          ) : (
+            <Stack.Screen
+              name="Engineer"
+              component={Engineer}
+              options={{
+                header: () => <CustomHeader title="Engineer Dashboard" showBackButton={true}/>,
+              }}
+            />
+          )
         ) : (
-          <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
         )}
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            header: () => <CustomHeader title="Home" />,
+          }}
+        />
+        <Stack.Screen
+          name="Details"
+          component={DetailsScreen}
+          options={{
+            header: () => <CustomHeader title="Details" showBackButton />,
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
