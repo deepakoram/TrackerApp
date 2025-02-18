@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import { AuthContext } from '../context/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { loginApiHandle } from '../ApiCalls/ApiCall';
 
 const LoginScreen = () => {
   const [username, setUsername] = useState('');
@@ -11,11 +11,13 @@ const LoginScreen = () => {
   const { login,setUserRole, userRole } = useContext(AuthContext);
 
   const handleLogin = async() => {
-    if (username === 'admin' && password === 'password') {
-      await AsyncStorage.setItem('userRole', sales ? "sales" : "Engineer");
-      setUserRole(sales ? "sales" : "Engineer")
-      const fakeToken = 'your-jwt-token-here';
-      login(fakeToken);
+    if (username  && password ) {
+      let response = await loginApiHandle(username,password)
+      if(response){
+      await AsyncStorage.setItem('userRole', response?.roles[0]);
+      setUserRole(response?.roles[0])
+      login(response?.token);
+      }
     } else {
       Alert.alert('Invalid credentials');
     }
@@ -25,7 +27,7 @@ const LoginScreen = () => {
     <View style={styles.container}>
       <TouchableOpacity onPress={()=>{setSales((prev)=>!prev)}}>
         <Text>
-        {sales ? "sales" : "Engineer"}
+        {sales ? "admin" : "Engineer"}
         </Text>
       </TouchableOpacity>
       <Text style={styles.title}>Login</Text>

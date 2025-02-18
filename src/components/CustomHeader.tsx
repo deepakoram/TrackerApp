@@ -23,7 +23,7 @@ const CustomHeader: React.FC<Props> = ({ title, showBackButton = false }) => {
             )}
             <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>{title}</Text>
             </View>
-            <TouchableOpacity onPress={()=>setUserRole((prev:string) => prev==="sales" ? "engineer" : 'sales')}>
+            <TouchableOpacity onPress={()=>setUserRole((prev:string) => prev==="admin" ? "engineer" : 'admin')}>
                 <Text>{userRole}</Text>
             </TouchableOpacity>
         </View>

@@ -51,12 +51,12 @@ const AppNavigator = () => {
     <NavigationContainer>
       <Stack.Navigator>
         {userToken ? (
-          userRole === 'sales' ? (
+          userRole === 'admin' ? (
             <Stack.Screen
               name="Sales"
               component={Sales}
               options={{
-                header: () => <CustomHeader title="Sales Dashboard" showBackButton={true}/>,
+                header: () => <CustomHeader title="Admin Dashboard" showBackButton={true}/>,
               }}
             />
           ) : (
