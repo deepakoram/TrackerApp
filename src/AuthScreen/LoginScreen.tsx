@@ -3,8 +3,12 @@ import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } fr
 import { AuthContext } from '../context/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { loginApiHandle } from '../ApiCalls/ApiCall';
+import { useNavigation } from "@react-navigation/native";
+
 
 const LoginScreen = () => {
+  const navigation = useNavigation();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [sales,setSales] = useState(true);
@@ -45,6 +49,7 @@ const LoginScreen = () => {
         onChangeText={setPassword}
       />
       <Button title="Login" onPress={handleLogin} />
+      <Button title="Register" onPress={() => navigation.navigate('Register')} />
     </View>
   );
 };

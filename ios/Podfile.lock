@@ -1586,6 +1586,27 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - RNCPicker (2.11.0):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.11.18.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - RNGestureHandler (2.23.1):
     - DoubleConversion
     - glog
@@ -1833,6 +1854,7 @@ DEPENDENCIES:
   - ReactCodegen (from `build/generated/ios`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -1979,6 +2001,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNCPicker:
+    :path: "../node_modules/@react-native-picker/picker"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNReanimated:
@@ -2058,6 +2082,7 @@ SPEC CHECKSUMS:
   ReactCodegen: 8c6710db5ccee603fa0475978465b606abe1ed77
   ReactCommon: 8da6c58517fa560d0fc7a9da83093457303ae9f8
   RNCAsyncStorage: 1d119293b08fc8673e775b6f86482a4d9092cc65
+  RNCPicker: ffbd7b9fc7c1341929e61dbef6219f7860f57418
   RNGestureHandler: 9ae308f1850d9c296a1230db9d1b52858911916b
   RNReanimated: ef80cf675203a39bb5e5464234cb08a0f0040ac2
   RNScreens: c8c0b69f667891d474ad1229054d514f06778772

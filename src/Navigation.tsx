@@ -10,12 +10,14 @@ import { AuthContext, AuthProvider } from './context/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, View } from 'react-native';
 import CustomHeader from './components/CustomHeader';
+import RegisterScreen from './AuthScreen/RegisterScreen';
 
 export type RootStackParamList = {
   Login: undefined;
   Home: undefined;
   Sales: undefined;
   Engineer: undefined;
+  Register: undefined;
   Details: { itemId: number };
 };
 
@@ -87,6 +89,13 @@ const AppNavigator = () => {
           component={DetailsScreen}
           options={{
             header: () => <CustomHeader title="Details" showBackButton />,
+          }}
+        />
+        <Stack.Screen
+          name="Register"
+          component={RegisterScreen}
+          options={{
+            header: () => <CustomHeader title="Register" showBackButton />,
           }}
         />
       </Stack.Navigator>
