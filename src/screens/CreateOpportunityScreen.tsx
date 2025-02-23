@@ -14,19 +14,22 @@ const CreateOpportunityScreen = () => {
     const [name, setName] = useState('');
     const [customerName, setCustomerName] = useState('');
     const [jobDescription, setJobDescription] = useState('');
-    const [customers, setCustomers] = useState([]);
+    const [customers, setCustomers] = useState<any>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [partialSaved, setPartialSaved] = useState(false);
     
     // Fetch customer list based on input
     const fetchCustomers = (query: any) => {
-        if (!query) return;
+        if(query.length > 0){
         setLoading(true);
         const filteredCustomers = dummyCustomers.filter(c => c.name.toLowerCase().includes(query.toLowerCase()));
         console.log(filteredCustomers,'filteredCustomers');
-        
         setCustomers(filteredCustomers);
+      }else{
+        setCustomers([]);
+
+      }
         setLoading(false);
     };
     
@@ -34,6 +37,8 @@ const CreateOpportunityScreen = () => {
     const savePartialForm = useCallback(
         debounce(async (field, value) => {
             try {
+              console.log("debounce");
+              
                 // await fetch('https://api.example.com/partial-save', {
                 //     method: 'POST',
                 //     headers: { 'Content-Type': 'application/json' },
@@ -65,11 +70,13 @@ const CreateOpportunityScreen = () => {
             return;
         }
         try {
-            await fetch('https://api.example.com/submit-form', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, customerName, jobDescription }),
-            });
+            // await fetch('https://api.example.com/submit-form', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({ name, customerName, jobDescription }),
+            // });
+            console.log(name, customerName, jobDescription);
+            
             Alert.alert('Form submitted successfully!');
         } catch (error) {
             console.error('Form submission failed', error);
@@ -78,6 +85,11 @@ const CreateOpportunityScreen = () => {
 
     return (
         <View style={styles.container}>
+           <View style={{flexDirection:"row",justifyContent:'flex-end' ,padding:5}}>
+            {customers.length === 0 && <TouchableOpacity style={{borderRadius:10,padding:10,backgroundColor:'blue'}}>
+              <Text style={{color:'white'}}>Add Customer +</Text>
+            </TouchableOpacity>}
+           </View>
             <Text>Name:</Text>
             <TextInput
                 style={styles.input}
@@ -93,7 +105,7 @@ const CreateOpportunityScreen = () => {
                 placeholder="Search Customer"
             />
             {loading && <ActivityIndicator />}
-            {customers.length > 0 ? (
+            {customers.length > 0  && (
                 <FlatList
                    style = {{backgroundColor:'grey', borderRadius:10, marginBottom:5}}
                     data={customers}
@@ -104,12 +116,7 @@ const CreateOpportunityScreen = () => {
                         </TouchableOpacity>
                     )}
                 />
-            ) 
-            : 
-            <TouchableOpacity>
-              <Text>Add Customer</Text>
-            </TouchableOpacity>
-          }
+            ) }
 
             <Text>Job Description:</Text>
             <TextInput
