@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, View } from 'react-native';
 import CustomHeader from './components/CustomHeader';
 import RegisterScreen from './AuthScreen/RegisterScreen';
+import CreateOpportunityScreen from './screens/CreateOpportunityScreen';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -18,6 +19,7 @@ export type RootStackParamList = {
   Sales: undefined;
   Engineer: undefined;
   Register: undefined;
+  CreateOpportunity: undefined;
   Details: { itemId: number };
 };
 
@@ -54,19 +56,28 @@ const AppNavigator = () => {
       <Stack.Navigator>
         {userToken ? (
           userRole === 'admin' ? (
+            <>
             <Stack.Screen
-              name="Sales"
-              component={Sales}
+              name="Home"
+              component={HomeScreen}
               options={{
-                header: () => <CustomHeader title="Admin Dashboard" showBackButton={true}/>,
+                header: () => <CustomHeader title="Home" />,
               }}
             />
+            <Stack.Screen
+              name="CreateOpportunity"
+              component={CreateOpportunityScreen}
+              options={{
+                header: () => <CustomHeader title="Create Opportunity" showBackButton={true} />,
+              }}
+            />
+            </>
           ) : (
             <Stack.Screen
               name="Engineer"
               component={Engineer}
               options={{
-                header: () => <CustomHeader title="Engineer Dashboard" showBackButton={true}/>,
+                header: () => <CustomHeader title="Engineer Dashboard" showBackButton={true} />,
               }}
             />
           )
@@ -77,13 +88,7 @@ const AppNavigator = () => {
             options={{ headerShown: false }}
           />
         )}
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            header: () => <CustomHeader title="Home" />,
-          }}
-        />
+
         <Stack.Screen
           name="Details"
           component={DetailsScreen}
