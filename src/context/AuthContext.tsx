@@ -7,6 +7,8 @@ type AuthContextType = {
   logout: () => void;
   setUserRole: any;
   userRole:any;
+  isLoading:boolean,
+  setIsLoading:any
 };
 
 export const AuthContext = createContext<AuthContextType>({
@@ -14,12 +16,15 @@ export const AuthContext = createContext<AuthContextType>({
   login: () => {},
   logout: () => {},
   setUserRole: "",
-  userRole:""
+  userRole:"",
+  isLoading:false,
+  setIsLoading:null
 });
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [userToken, setUserToken] = useState<string | null>(null);
   const [userRole, setUserRole] = useState<string>("");
+  const [isLoading,setIsLoading] = useState(false);
 
   useEffect(() => {
     const loadToken = async () => {
@@ -41,7 +46,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ userToken, login, logout,setUserRole, userRole }}>
+    <AuthContext.Provider value={{ isLoading,setIsLoading,userToken, login, logout,setUserRole, userRole }}>
       {children}
     </AuthContext.Provider>
   );

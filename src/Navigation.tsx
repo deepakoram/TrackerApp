@@ -1,21 +1,30 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
+import { AuthContext, AuthProvider } from './context/AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ActivityIndicator, View } from 'react-native';
+
+// screens
+import CustomHeader from './components/CustomHeader';
+import RegisterScreen from './AuthScreen/RegisterScreen';
+import LoginScreen from './AuthScreen/LoginScreen';
+import CreateOpportunityScreen from './screens/CreateOpportunityScreen';
 import HomeScreen from './screens/HomeScreen';
 import DetailsScreen from './screens/DetailsScreen';
 import Sales from './screens/Sales';
 import Engineer from './screens/Engineer';
-import LoginScreen from './AuthScreen/LoginScreen';
-import { AuthContext, AuthProvider } from './context/AuthContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ActivityIndicator, View } from 'react-native';
-import CustomHeader from './components/CustomHeader';
+import Loader from './components/Loader';
+import AddCustomerScreen from './screens/AddCustomerScreen';
 
 export type RootStackParamList = {
   Login: undefined;
   Home: undefined;
   Sales: undefined;
   Engineer: undefined;
+  Register: undefined;
+  CreateOpportunity: undefined;
+  AddCustomer: undefined;
   Details: { itemId: number };
 };
 
@@ -42,7 +51,7 @@ const AppNavigator = () => {
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <Loader/>
       </View>
     );
   }
@@ -51,20 +60,38 @@ const AppNavigator = () => {
     <NavigationContainer>
       <Stack.Navigator>
         {userToken ? (
+          // sales screen
           userRole === 'admin' ? (
+            <>
             <Stack.Screen
-              name="Sales"
-              component={Sales}
+              name="Home"
+              component={HomeScreen}
               options={{
-                header: () => <CustomHeader title="Admin Dashboard" showBackButton={true}/>,
+                header: () => <CustomHeader title="Home" />,
               }}
             />
+            <Stack.Screen
+              name="CreateOpportunity"
+              component={CreateOpportunityScreen}
+              options={{
+                header: () => <CustomHeader title="Create Opportunity" showBackButton={true} />,
+              }}
+            />
+            <Stack.Screen
+              name="AddCustomer"
+              component={AddCustomerScreen}
+              options={{
+                header: () => <CustomHeader title="Add Customer" showBackButton={true} />,
+              }}
+            />
+            </>
           ) : (
+            // engineer screens
             <Stack.Screen
               name="Engineer"
               component={Engineer}
               options={{
-                header: () => <CustomHeader title="Engineer Dashboard" showBackButton={true}/>,
+                header: () => <CustomHeader title="Engineer Dashboard" showBackButton={true} />,
               }}
             />
           )
@@ -75,19 +102,18 @@ const AppNavigator = () => {
             options={{ headerShown: false }}
           />
         )}
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            header: () => <CustomHeader title="Home" />,
-          }}
-        />
+
         <Stack.Screen
           name="Details"
           component={DetailsScreen}
           options={{
             header: () => <CustomHeader title="Details" showBackButton />,
           }}
+        />
+        <Stack.Screen
+          name="Register"
+          component={RegisterScreen}
+          
         />
       </Stack.Navigator>
     </NavigationContainer>
