@@ -10,7 +10,6 @@ export const loginApiHandle = async (email: string, password: string) => {
     password
   };
   console.log(JSON.stringify(payload), 'payload');
-
   try {
     const response = await fetch(`${loginApi}`, {
       method: "POST",
@@ -24,7 +23,6 @@ export const loginApiHandle = async (email: string, password: string) => {
       Alert.alert("Invalid Credentials")
       // throw new Error(`HTTP error! Status: ${response.status}`);
     }
-
     return await response.json();
   } catch (error) {
     console.error('Fetch error:', error);
@@ -33,7 +31,6 @@ export const loginApiHandle = async (email: string, password: string) => {
 };
 export const registerApiHandle = async (payload:any) => {
   console.log(JSON.stringify(payload), 'payload');
-
   try {
     const response = await fetch(`${registerApi}`, {
       method: "POST",
@@ -47,7 +44,6 @@ export const registerApiHandle = async (payload:any) => {
       Alert.alert("Invalid Credentials")
       // throw new Error(`HTTP error! Status: ${response.status}`);
     }
-
     return await response.json();
   } catch (error) {
     console.error('Fetch error:', error);

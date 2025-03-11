@@ -1,15 +1,20 @@
-import React from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import React,{useState} from "react";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerApiHandle } from '../ApiCalls/ApiCall';
 import { useNavigation } from "@react-navigation/native";
+import { color } from "../Utils/Colors";
+import Avatar from '../assets/avatar_2.png'
+import Loader from "../components/Loader";
 
 
 
 const RegisterScreen: React.FC = () => {
   const navigation = useNavigation();
+
+  const[loading,setLoading] = useState(false)
     
   const validationSchema = Yup.object().shape({
     full_name: Yup.string().required("Name is required"),
@@ -29,26 +34,35 @@ const RegisterScreen: React.FC = () => {
   });
 
   const onSubmit = async(data: any) => {
+    setLoading(true)
       let muteData = {...data,roles:['admin']}
       console.log(muteData,'muteData');
     let response = await registerApiHandle(muteData)
     console.log(response,'response');
     if(response?.message === "Registration successful"){
+      setLoading(false)
         navigation.navigate('Login')
+    }else{
+      setLoading(false)
     }
   };
 
   return (
+    loading ? <Loader/> :
     <View style={styles.container}>
-      <Text style={styles.title}>Register</Text>
+      <View style={{justifyContent:'center', alignItems:'center'}}>
+      <Image source={Avatar} style={{width:100, height:100}}/>
+      </View>
+      <Text style={styles.title}>Register User</Text>
       
       <Controller
         control={control}
         name="full_name"
         render={({ field: { onChange, onBlur, value } }) => (
           <>
-            <TextInput style={styles.input} placeholder="Name" onBlur={onBlur} onChangeText={onChange} value={value} />
-            {errors.name && <Text style={styles.error}>{errors.name.message}</Text>}
+           <Text style={styles.inputText}>Name</Text>
+            <TextInput style={styles.input} placeholder="Enter name" placeholderTextColor={'white'} onBlur={onBlur} onChangeText={onChange} value={value} />
+            {errors.full_name && <Text style={styles.error}>{errors.full_name.message}</Text>}
           </>
         )}
       />
@@ -58,7 +72,8 @@ const RegisterScreen: React.FC = () => {
         name="email"
         render={({ field: { onChange, onBlur, value } }) => (
           <>
-            <TextInput style={styles.input} placeholder="Email" keyboardType="email-address" onBlur={onBlur} onChangeText={onChange} value={value} />
+          <Text style={styles.inputText}>Email</Text>
+            <TextInput style={styles.input} placeholder="Enter email" placeholderTextColor={'white'} keyboardType="email-address" onBlur={onBlur} onChangeText={onChange} value={value} />
             {errors.email && <Text style={styles.error}>{errors.email.message}</Text>}
           </>
         )}
@@ -69,7 +84,8 @@ const RegisterScreen: React.FC = () => {
         name="password"
         render={({ field: { onChange, onBlur, value } }) => (
           <>
-            <TextInput style={styles.input} placeholder="Password" secureTextEntry onBlur={onBlur} onChangeText={onChange} value={value} />
+          <Text style={styles.inputText}>Password</Text>
+            <TextInput style={styles.input} placeholder="Enter password" placeholderTextColor={'white'} secureTextEntry onBlur={onBlur} onChangeText={onChange} value={value} />
             {errors.password && <Text style={styles.error}>{errors.password.message}</Text>}
           </>
         )}
@@ -80,7 +96,8 @@ const RegisterScreen: React.FC = () => {
         name="confirmPassword"
         render={({ field: { onChange, onBlur, value } }) => (
           <>
-            <TextInput style={styles.input} placeholder="Confirm Password" secureTextEntry onBlur={onBlur} onChangeText={onChange} value={value} />
+          <Text style={styles.inputText}>Confirm Password</Text>
+            <TextInput style={styles.input} placeholder="Confirm Password" placeholderTextColor={'white'} secureTextEntry onBlur={onBlur} onChangeText={onChange} value={value} />
             {errors.confirmPassword && <Text style={styles.error}>{errors.confirmPassword.message}</Text>}
           </>
         )}
@@ -97,8 +114,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
+    // alignItems:'center',
     padding: 20,
     backgroundColor: "#fff",
+    gap:10
   },
   title: {
     fontSize: 24,
@@ -107,14 +126,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-  },
+      padding: 15,
+      borderRadius: 5,
+      backgroundColor: color.white_2,
+      color:'white'
+    },
   button: {
-    backgroundColor: "blue",
+    backgroundColor: color.dark_2,
     padding: 15,
     borderRadius: 5,
     alignItems: "center",
@@ -128,6 +146,11 @@ const styles = StyleSheet.create({
     color: "red",
     marginBottom: 5,
   },
+  inputText:{
+    fontSize: 15,
+    fontWeight: '400',
+    
+  }
 });
 
 export default RegisterScreen;

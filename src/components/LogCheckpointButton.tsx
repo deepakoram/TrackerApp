@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, Text, StyleSheet, PermissionsAndroid, Platform } from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
+import { color } from '../Utils/Colors';
 
 interface LogCheckpointButtonProps {
   onLogCheckpoint: (location: { latitude: number; longitude: number }, message: string) => void;
@@ -31,7 +32,7 @@ const LogCheckpointButton: React.FC<LogCheckpointButtonProps> = ({ onLogCheckpoi
     return true;
   };
 
-  const handleLogCheckpoint = async () => {
+   const handleLogCheckpoint = async () => {
     setIsLogging(true);
     try {
       const hasPermission = await requestLocationPermission();
@@ -69,7 +70,7 @@ const LogCheckpointButton: React.FC<LogCheckpointButtonProps> = ({ onLogCheckpoi
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: color.dark_2,
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',

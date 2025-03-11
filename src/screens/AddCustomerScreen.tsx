@@ -4,8 +4,6 @@ import debounce from 'lodash.debounce';
 import { ActivityIndicator } from 'react-native-paper';
 import { color } from '../Utils/Colors';
 import Loader from '../components/Loader';
-import { useNavigation } from '@react-navigation/native';
-
 
 const dummyCustomers = [
     { id: 1, name: 'John Doe' },
@@ -14,9 +12,7 @@ const dummyCustomers = [
     { id: 4, name: 'Emily Davis' }
 ];
 
-const CreateOpportunityScreen = () => {
-    const navigation = useNavigation();
-
+const AddCustomerScreen = () => {
     const [name, setName] = useState('');
     const [customerName, setCustomerName] = useState('');
     const [jobDescription, setJobDescription] = useState('');
@@ -91,11 +87,6 @@ const CreateOpportunityScreen = () => {
 
     return (
         <View style={styles.container}>
-           <View style={{flexDirection:"row",justifyContent:'flex-end' ,padding:5}}>
-            {customers.length === 0 && <TouchableOpacity style={styles.button} onPress={()=> navigation.navigate('AddCustomer')}>
-              <Text style={styles.btnText}>Add Customer +</Text>
-            </TouchableOpacity>}
-           </View>
             <Text>Name:</Text>
             <TextInput
                 placeholder='Enter name'
@@ -168,4 +159,4 @@ const styles = StyleSheet.create({
       },
 });
 
-export default CreateOpportunityScreen;
+export default AddCustomerScreen;

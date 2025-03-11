@@ -1,9 +1,12 @@
-import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import React, { useContext } from 'react';
+import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import JobListItem from '../components/JobListItem';
 import CreateJobButton from '../components/CreateJobButton';
+import { color } from '../Utils/Colors';
+import { AuthContext } from '../context/AuthContext';
+import Loader from '../components/Loader';
 
 type RootStackParamList = {
   Home: undefined;
@@ -15,6 +18,8 @@ type RootStackParamList = {
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
 const HomeScreen: React.FC = () => {
+    const { login, setUserRole, userRole,isLoading,setIsLoading } = useContext(AuthContext);
+  
   const navigation = useNavigation<HomeScreenNavigationProp>();
   const handleCreateJob = () => {
     navigation.navigate('CreateOpportunity');
@@ -41,6 +46,9 @@ const HomeScreen: React.FC = () => {
   ];
 
   return (
+    isLoading ? 
+    <Loader/>
+    :
     <View style={styles.container}>
       <CreateJobButton onPress={handleCreateJob} />
 
@@ -80,7 +88,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: color.white_1,
   },
   sectionTitle: {
     fontSize: 18,
